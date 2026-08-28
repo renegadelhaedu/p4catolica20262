@@ -11,18 +11,36 @@ usuarios = [us1, us2, us3]
 
 #instanciar o servidor flask
 app = Flask(__name__)
+app.secret_key = 'EGUyfgA786#' #colocaremos este valor dentro de um arquivo .env
+
 
 #decorator do flask para declarar rotas/endpoints da web app
 @app.route('/')
 def pagina_principal():
     return render_template('index.html')
 
+#mesmo endpoint/rota declarada no formulário da página principal
+@app.route('/login', methods=['POST'])
+def fazer_login():
+    email = request.form.get('email')
+    senha = request.form.get('senha')
+
+    if email == 'renegadelha@gmail.com' and senha == '123':
+        session['login'] = email
+
+        return render_template('principal.html')
+    else:
+        return render_template('index.html', mensagem= 'Erro ao fazer login')
 
 
 #1-verificar que o usuário está querendo exibir a página de cadastro, retornando a pag html
 #2-via post, possa receber as informaçoes do formulário para que seja cadastrado no BD o usuário
 @app.route('/cadastrarusuario', methods=['POST', 'GET'])
 def cadastrarusuario():
+    if session.get('login') is None:
+        print('voce nao está logado')
+        return render_template('index.html')
+
     if request.method == 'GET':
         return render_template('cadastrarusuario.html')
 
