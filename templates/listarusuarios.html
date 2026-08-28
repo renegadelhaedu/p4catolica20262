@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lista de Usuários</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 15px;
+        }
+
+        .usuarios {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .usuario {
+            background: #f7f8ff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px 20px;
+            color: #2d3748;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .usuario:hover {
+            transform: translateX(5px);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.15);
+        }
+
+        .usuario::before {
+            content: "👤";
+            margin-right: 12px;
+        }
+
+        .vazio {
+            text-align: center;
+            padding: 30px;
+            color: #718096;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+
+        .voltar {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .voltar:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="icon">👥</div>
+
+            <h1>Lista de Usuários</h1>
+
+            <p class="subtitle">
+                Usuários cadastrados na aplicação
+            </p>
+        </div>
+
+        <div class="usuarios">
+
+            {% for u in usuarios %}
+
+                <div class="usuario">
+                    <a href="/detalharusuario/{{ u.id }}">{{ u.nome }}</a>
+
+                </div>
+
+            {% else %}
+
+                <div class="vazio">
+                    Nenhum usuário cadastrado.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <a href="/" class="voltar">
+            ← Voltar para a página principal
+        </a>
+
+    </div>
+
+</body>
+
+</html>
+```

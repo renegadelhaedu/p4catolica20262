@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detalhes do Usuário</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            border-radius: 18px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 15px;
+        }
+
+        .dados {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .campo {
+            background: #f7f8ff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px 18px;
+        }
+
+        .label {
+            display: block;
+            color: #718096;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .valor {
+            color: #2d3748;
+            font-size: 17px;
+        }
+
+        .senha {
+            color: #718096;
+            font-style: italic;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .botao {
+            flex: 1;
+            padding: 13px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .voltar {
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .voltar:hover {
+            background: #e2e8f0;
+        }
+
+        .editar {
+            background: #667eea;
+            color: white;
+        }
+
+        .editar:hover {
+            background: #5568d8;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .acoes {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <h1>Detalhes do Usuário</h1>
+
+            <p class="subtitle">
+                Informações cadastrais
+            </p>
+
+        </div>
+
+        <div class="dados">
+
+            <div class="campo">
+                <span class="label">ID</span>
+                <span class="valor">{{ usuario.id }}</span>
+            </div>
+
+            <div class="campo">
+                <span class="label">Nome</span>
+                <span class="valor">{{ usuario.nome }}</span>
+            </div>
+
+            <div class="campo">
+                <span class="label">E-mail</span>
+                <span class="valor">{{ usuario.email }}</span>
+            </div>
+
+            <div class="campo">
+                <span class="label">Senha</span>
+                <span class="valor senha">
+                    🔒 Informação protegida
+                </span>
+            </div>
+
+        </div>
+
+        <div class="acoes">
+
+            <a href="/listarusuarios" class="botao voltar">
+                ← Voltar
+            </a>
+
+            <a href="/editarusuario/{{ usuario.id }}" class="botao editar">
+                ✏️ Editar Usuário
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
