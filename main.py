@@ -4,17 +4,19 @@
 from flask import *
 from modelos.usuario import Usuario
 
+us1 = Usuario('diego', 'd@d', '1', '123')
+us2 = Usuario('alan', 'a@d', '2', '123')
+us3 = Usuario('maria', 'm@d', '3', '123')
+usuarios = [us1, us2, us3]
+
 #instanciar o servidor flask
 app = Flask(__name__)
 
 #decorator do flask para declarar rotas/endpoints da web app
 @app.route('/')
 def pagina_principal():
-    return render_template('principal.html')
-
-@app.route('/index')
-def index():
     return render_template('index.html')
+
 
 
 #1-verificar que o usuário está querendo exibir a página de cadastro, retornando a pag html
@@ -44,20 +46,22 @@ def cadastrarusuario():
 def listarusuarios():
     #usuarios = ['miro','diego','eduarda','alisson','gabriel']
     #puxei do banco de dados
-    us1 = Usuario('diego','d@d','1','123')
-    us2 = Usuario('alan', 'a@d', '2', '123')
-    us3 = Usuario('maria', 'm@d', '3', '123')
-    usuarios = [us1, us2, us3]
 
     return render_template('listarusuarios.html', usuarios=usuarios)
 
 @app.route('/detalharusuario/<idusuario>')
 def detalharusuario(idusuario):
     print('ID:', idusuario)
+    #forma provisória de buscar o objeto dado o interesse do usuário
+    for u in usuarios:
+        if u.id == idusuario:
+            return render_template('detalharusuario.html', usuario=u)
+
     #busco no banco de dados o objeto pelo ID
     #retornar uma pagina com as informaçoes do objeto
     us2 = Usuario('alan', 'a@d', '2', '123')
-    return render_template('detalharusuario.html', usuario=us2)
+    return render_template('detalharusuario.html')
+
 
 
 #executando o servidor
