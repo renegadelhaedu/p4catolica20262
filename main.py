@@ -20,17 +20,24 @@ def pagina_principal():
     return render_template('index.html')
 
 #mesmo endpoint/rota declarada no formulário da página principal
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST','GET'])
 def fazer_login():
+    if session.get('login'):
+        return render_template('principal.html')
+
     email = request.form.get('email')
     senha = request.form.get('senha')
 
     if email == 'renegadelha@gmail.com' and senha == '123':
         session['login'] = email
-
         return render_template('principal.html')
     else:
         return render_template('index.html', mensagem= 'Erro ao fazer login')
+
+@app.route('/logout')
+def logout():
+    session.pop('login', None)
+    return render_template('index.html')
 
 
 #1-verificar que o usuário está querendo exibir a página de cadastro, retornando a pag html
@@ -62,14 +69,19 @@ def cadastrarusuario():
 
 @app.route('/listarusuarios')
 def listarusuarios():
+    if session.get('login') is None:
+        print('voce nao está logado')
+        return render_template('index.html')
     #usuarios = ['miro','diego','eduarda','alisson','gabriel']
     #puxei do banco de dados
-
     return render_template('listarusuarios.html', usuarios=usuarios)
 
 @app.route('/detalharusuario/<idusuario>')
 def detalharusuario(idusuario):
-    print('ID:', idusuario)
+    if session.get('login') is None:
+        print('voce nao está logado')
+        return render_template('index.html')
+
     #forma provisória de buscar o objeto dado o interesse do usuário
     for u in usuarios:
         if u.id == idusuario:

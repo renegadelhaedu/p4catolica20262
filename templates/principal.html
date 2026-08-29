@@ -1,19 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>P4 - Página Principal</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        background: #f3f6fa;
+        color: #1f2937;
+    }
+
+    /* Cabeçalho */
+
+    header {
+        background: linear-gradient(135deg, #173b63, #0d2742);
+        color: white;
+        padding: 22px 7%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .logo-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        background: white;
+        color: #173b63;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .logo h2 {
+        font-size: 20px;
+    }
+
+    .logo span {
+        display: block;
+        font-size: 12px;
+        color: #cbd8e5;
+        margin-top: 3px;
+    }
+
+    /* Conteúdo */
+
+    .container {
+        width: 86%;
+        max-width: 1100px;
+        margin: 55px auto;
+    }
+
+    .boas-vindas {
+        margin-bottom: 35px;
+    }
+
+    .boas-vindas h1 {
+        font-size: 34px;
+        color: #172033;
+        margin-bottom: 10px;
+    }
+
+    .boas-vindas p {
+        color: #667085;
+        font-size: 16px;
+    }
+
+    /* Mensagem */
+
+    .mensagem {
+        background: white;
+        border-left: 5px solid #173b63;
+        padding: 18px 22px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        color: #475467;
+    }
+
+    /* Cards */
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .card {
+        background: white;
+        padding: 32px;
+        border-radius: 14px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+        transition: 0.25s;
+        border: 1px solid #edf0f4;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .icone {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        background: #e8f0f8;
+        color: #173b63;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        margin-bottom: 20px;
+    }
+
+    .card h2 {
+        color: #172033;
+        font-size: 21px;
+        margin-bottom: 10px;
+    }
+
+    .card p {
+        color: #667085;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        font-size: 14px;
+    }
+
+    .botao {
+        display: inline-block;
+        text-decoration: none;
+        background: #173b63;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 7px;
+        font-size: 14px;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    .botao:hover {
+        background: #0d2742;
+    }
+
+    .botao-secundario {
+        background: #eef2f6;
+        color: #173b63;
+    }
+
+    .botao-secundario:hover {
+        background: #dfe7ef;
+    }
+
+    /* Rodapé */
+
+    footer {
+        margin-top: 70px;
+        background: #0d2742;
+        color: #b8c7d6;
+        text-align: center;
+        padding: 25px;
+        font-size: 13px;
+    }
+
+    /* Responsividade */
+
+    @media (max-width: 700px) {
+
+        header {
+            padding: 18px 5%;
+        }
+
+        .container {
+            width: 90%;
+            margin: 40px auto;
+        }
+
+        .boas-vindas h1 {
+            font-size: 28px;
+        }
+
+        .cards {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 450px) {
+
+        .logo h2 {
+            font-size: 17px;
+        }
+
+        .logo span {
+            font-size: 10px;
+        }
+
+        .boas-vindas h1 {
+            font-size: 24px;
+        }
+
+        .card {
+            padding: 25px;
+        }
+    }
+</style>
+```
+
 </head>
+
 <body>
-    <h1>Página principal de nossa aplicação web</h1>
-    <br>
+
+```
+<!-- Cabeçalho -->
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            P4
+        </div>
+
+        <div>
+            <h2>Faculdade Católica</h2>
+            <span>Plataforma Acadêmica</span>
+        </div>
+
+    </div>
+    <a href="/logout" class="btn-logout"> Sair </a>
+
+</header>
 
 
-    <a href="/cadastrarusuario">Cadastrar Novo Usuário</a>
-    <br><br>
-    <p>{{mensagem}}</p>
-    <br><br>
-    <a href="/listarusuarios">Listar usuários</a>
-    <br><br>
+<!-- Conteúdo principal -->
+
+<main class="container">
+
+    <section class="boas-vindas">
+
+        <h1>Página principal</h1>
+
+        <p>
+            Bem-vindo à nossa aplicação web. Selecione uma das opções
+            abaixo para continuar.
+        </p>
+
+    </section>
+
+
+    <!-- Mensagem Jinja -->
+
+    {% if mensagem %}
+
+    <div class="mensagem">
+        {{ mensagem }}
+    </div>
+
+    {% endif %}
+
+
+    <!-- Opções -->
+
+    <section class="cards">
+
+        <!-- Cadastrar -->
+
+        <div class="card">
+
+            <div class="icone">
+                +
+            </div>
+
+            <h2>Cadastrar usuário</h2>
+
+            <p>
+                Cadastre um novo usuário na aplicação informando
+                seus dados pessoais e de acesso.
+            </p>
+
+            <a href="/cadastrarusuario" class="botao">
+                Cadastrar novo usuário
+            </a>
+
+        </div>
+
+
+        <!-- Listar -->
+
+        <div class="card">
+
+            <div class="icone">
+                ☷
+            </div>
+
+            <h2>Usuários cadastrados</h2>
+
+            <p>
+                Consulte a lista de usuários cadastrados
+                atualmente no sistema.
+            </p>
+
+            <a href="/listarusuarios"
+               class="botao botao-secundario">
+                Listar usuários
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- Rodapé -->
+
+<footer>
+
+    © 2026 Faculdade Católica da Paraíba —
+    Aplicação Web P4
+
+</footer>
+
+
 </body>
 </html>
