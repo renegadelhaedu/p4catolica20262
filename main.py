@@ -27,6 +27,7 @@ def fazer_login():
 
     email = request.form.get('email')
     senha = request.form.get('senha')
+    #vamos usar um biblioteca para criptografar esta senha e guardar criptografada no BD
 
     if email == 'renegadelha@gmail.com' and senha == '123':
         session['login'] = email
