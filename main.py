@@ -8,7 +8,7 @@ from configdb import db
 app = Flask(__name__)
 app.secret_key = 'EGUyfgA786#' #colocaremos este valor dentro de um arquivo .env
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5432/teste3anoifpb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5432/p4catolicaweb'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
