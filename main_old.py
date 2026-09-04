@@ -3,15 +3,15 @@
 #importar o flask
 from flask import *
 from modelos.usuario import Usuario
-from configdb import db
+
+us1 = Usuario('diego', 'd@d', '1', '123')
+us2 = Usuario('alan', 'a@d', '2', '123')
+us3 = Usuario('maria', 'm@d', '3', '123')
+usuarios = [us1, us2, us3]
+
 #instanciar o servidor flask
 app = Flask(__name__)
 app.secret_key = 'EGUyfgA786#' #colocaremos este valor dentro de um arquivo .env
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5432/teste3anoifpb'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db.init_app(app)
 
 
 #decorator do flask para declarar rotas/endpoints da web app
@@ -75,7 +75,7 @@ def listarusuarios():
         return render_template('index.html')
     #usuarios = ['miro','diego','eduarda','alisson','gabriel']
     #puxei do banco de dados
-    return render_template('listarusuarios.html', usuarios=[])
+    return render_template('listarusuarios.html', usuarios=usuarios)
 
 @app.route('/detalharusuario/<idusuario>')
 def detalharusuario(idusuario):
@@ -83,6 +83,10 @@ def detalharusuario(idusuario):
         print('voce nao está logado')
         return render_template('index.html')
 
+    #forma provisória de buscar o objeto dado o interesse do usuário
+    for u in usuarios:
+        if u.id == idusuario:
+            return render_template('detalharusuario.html', usuario=u)
 
     #busco no banco de dados o objeto pelo ID
     #retornar uma pagina com as informaçoes do objeto
