@@ -33,10 +33,14 @@ def fazer_login():
     email = request.form.get('email')
     senha = request.form.get('senha')
     #vamos usar um biblioteca para criptografar esta senha e guardar criptografada no BD
+    user = UsuarioDAO.buscar_por_email(email)
 
-    if email == 'renegadelha@gmail.com' and senha == '123':
-        session['login'] = email
-        return render_template('principal.html')
+    if user:#impedir que o email inexistente seja verificado senha
+        if user.senha == senha:
+            session['login'] = email #coloca ele na sessão (cookies)
+            return render_template('principal.html')
+        else:
+            return render_template('index.html', mensagem='Erro ao fazer login')
     else:
         return render_template('index.html', mensagem= 'Erro ao fazer login')
 
