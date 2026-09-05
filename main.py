@@ -4,6 +4,8 @@
 from flask import *
 from modelos.usuario import Usuario
 from configdb import db
+from reposit.usuariodao import UsuarioDAO
+
 #instanciar o servidor flask
 app = Flask(__name__)
 app.secret_key = 'EGUyfgA786#' #colocaremos este valor dentro de um arquivo .env
@@ -12,6 +14,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
+
+with app.app_context():
+    db.create_all()#responsável por criar a estrutura do BD
 
 
 #decorator do flask para declarar rotas/endpoints da web app
@@ -58,15 +63,16 @@ def cadastrarusuario():
     nascimento = request.form.get('nascimento')
     senha = request.form.get('senha')
     confirma = request.form.get('confirma')
-    print(nome,email,nascimento,senha,confirma)
+
     if senha == confirma:
-        print('cadastrou')
+        novo = Usuario(nome=nome, email=email,data_nascimento=nascimento,senha=senha)
+        UsuarioDAO.salvar(novo)
         msg = 'usuário cadastrado com sucesso!'
+
     else:
-        print('NAO cadastrou')
         msg = 'Erro no cadastro de usuário!'
-    #futuramente iremos salvar no BD
-    return render_template('principal.html', mensagem=msg)
+
+    return render_template('index.html', mensagem=msg)
 
 @app.route('/listarusuarios')
 def listarusuarios():

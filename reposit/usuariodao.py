@@ -1,14 +1,16 @@
 from configdb import db
 from modelos.usuario import Usuario
 
-#objeto que contém os métodos de CRUD para acesso ao banco
+#objeto que contém os métodos de CRUD para acesso ao banco de dados
 class UsuarioDAO:
     #definir métodos estáticos para serem acessados
     #nas rotas do servidor
     @staticmethod
     def salvar(usuario):
+        #falta fazer o tratamento de erro
         db.session.add(usuario)
         db.session.commit()#salvando e gravando ele no BD
+        #este método precisa restornar true ou false
 
     @staticmethod
     def listar_todos():
