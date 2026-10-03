@@ -3,15 +3,20 @@
 #importar o flask
 from flask import *
 from modelos.usuario import Usuario
-
-us1 = Usuario('diego', 'd@d', '1', '123')
-us2 = Usuario('alan', 'a@d', '2', '123')
-us3 = Usuario('maria', 'm@d', '3', '123')
-usuarios = [us1, us2, us3]
+from configdb import db
+from reposit.usuariodao import UsuarioDAO
 
 #instanciar o servidor flask
 app = Flask(__name__)
 app.secret_key = 'EGUyfgA786#' #colocaremos este valor dentro de um arquivo .env
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5432/p4catolicaweb'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()#responsável por criar a estrutura do BD
 
 
 #decorator do flask para declarar rotas/endpoints da web app
@@ -28,10 +33,14 @@ def fazer_login():
     email = request.form.get('email')
     senha = request.form.get('senha')
     #vamos usar um biblioteca para criptografar esta senha e guardar criptografada no BD
+    user = UsuarioDAO.buscar_por_email(email)
 
-    if email == 'renegadelha@gmail.com' and senha == '123':
-        session['login'] = email
-        return render_template('principal.html')
+    if user:#impedir que o email inexistente seja verificado senha
+        if user.senha == senha:
+            session['login'] = email #coloca ele na sessão (cookies)
+            return render_template('principal.html')
+        else:
+            return render_template('index.html', mensagem='Erro ao fazer login')
     else:
         return render_template('index.html', mensagem= 'Erro ao fazer login')
 
@@ -58,15 +67,16 @@ def cadastrarusuario():
     nascimento = request.form.get('nascimento')
     senha = request.form.get('senha')
     confirma = request.form.get('confirma')
-    print(nome,email,nascimento,senha,confirma)
+
     if senha == confirma:
-        print('cadastrou')
+        novo = Usuario(nome=nome, email=email,data_nascimento=nascimento,senha=senha)
+        UsuarioDAO.salvar(novo)
         msg = 'usuário cadastrado com sucesso!'
+
     else:
-        print('NAO cadastrou')
         msg = 'Erro no cadastro de usuário!'
-    #futuramente iremos salvar no BD
-    return render_template('principal.html', mensagem=msg)
+
+    return render_template('index.html', mensagem=msg)
 
 @app.route('/listarusuarios')
 def listarusuarios():
@@ -75,7 +85,7 @@ def listarusuarios():
         return render_template('index.html')
     #usuarios = ['miro','diego','eduarda','alisson','gabriel']
     #puxei do banco de dados
-    return render_template('listarusuarios.html', usuarios=usuarios)
+    return render_template('listarusuarios.html', usuarios=[])
 
 @app.route('/detalharusuario/<idusuario>')
 def detalharusuario(idusuario):
@@ -83,10 +93,6 @@ def detalharusuario(idusuario):
         print('voce nao está logado')
         return render_template('index.html')
 
-    #forma provisória de buscar o objeto dado o interesse do usuário
-    for u in usuarios:
-        if u.id == idusuario:
-            return render_template('detalharusuario.html', usuario=u)
 
     #busco no banco de dados o objeto pelo ID
     #retornar uma pagina com as informaçoes do objeto

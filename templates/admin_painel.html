@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Painel administrativo</title>
+    <style>
+        body{font:16px Arial,sans-serif;background:#f3f6fa;color:#172033;margin:0}
+        header{background:#173b63;color:white;padding:20px 7%;display:flex;justify-content:space-between;align-items:center}
+        header a{color:white}main{max-width:900px;margin:42px auto;padding:0 18px}
+        .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+        .card{background:white;padding:24px;border-radius:10px;box-shadow:0 5px 18px #0001}
+        .card a{display:inline-block;background:#173b63;color:white;padding:10px 14px;border-radius:6px;text-decoration:none;margin:5px 5px 0 0}
+    </style>
+</head>
+<body>
+    <header><strong>Painel administrativo</strong><a href="{{ url_for('auth.logout') }}">Sair</a></header>
+    <main>
+        <h1>Olá, {{ current_user.nome }}</h1>
+        <p>Escolha uma ação administrativa.</p>
+        <section class="cards">
+            <article class="card"><h2>Usuários</h2><p>Consulte as contas cadastradas e remova usuários.</p><a href="{{ url_for('admin.listar_usuarios') }}">Gerenciar usuários</a></article>
+            <article class="card"><h2>Avaliações</h2><p>Leia os textos enviados pelos usuários comuns sobre sua disciplina.</p><a href="{{ url_for('admin.listar_avaliacoes') }}">Ver avaliações</a></article>
+        </section>
+    </main>
+</body>
+</html>

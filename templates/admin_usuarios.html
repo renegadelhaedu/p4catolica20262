@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Administrar usuários</title>
+<style>body{font:16px Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 18px;color:#172033}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left}button{background:#a11;color:white;border:0;padding:8px 12px;cursor:pointer}.links{display:flex;gap:18px;margin:20px 0}.flash{padding:10px;background:#eef2f6;margin:8px 0}</style></head>
+<body><h1>Administrar usuários</h1>
+{% for categoria, mensagem in get_flashed_messages(with_categories=true) %}<p class="flash">{{ mensagem }}</p>{% endfor %}
+<nav class="links"><a href="{{ url_for('admin.listar_avaliacoes') }}">Ver avaliações</a><a href="{{ url_for('usuarios.pagina_inicial') }}">Página principal</a></nav>
+<table><thead><tr><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Ação</th></tr></thead><tbody>
+{% for usuario in usuarios %}<tr><td>{{ usuario.nome }}</td><td>{{ usuario.email }}</td><td>{{ usuario.tipo }}</td><td>{% if usuario.id != current_user.id %}<form method="post" action="{{ url_for('admin.remover_usuario', id_usuario=usuario.id) }}" onsubmit="return confirm('Remover este usuário e suas avaliações?')"><button type="submit">Remover</button></form>{% else %}Sua conta{% endif %}</td></tr>{% else %}<tr><td colspan="4">Nenhum usuário encontrado.</td></tr>{% endfor %}
+</tbody></table></body></html>

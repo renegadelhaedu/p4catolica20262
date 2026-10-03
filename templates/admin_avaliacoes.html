@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Avaliações</title>
+<style>body{font:16px Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 18px;color:#172033}.item{padding:16px;margin:12px 0;border:1px solid #ddd;border-radius:8px}</style></head>
+<body><h1>Avaliações dos usuários</h1><p><a href="{{ url_for('admin.listar_usuarios') }}">Administrar usuários</a> · <a href="{{ url_for('usuarios.pagina_inicial') }}">Página principal</a></p>
+{% for avaliacao in avaliacoes %}<article class="item"><p>{{ avaliacao.texto }}</p><small>Por {{ avaliacao.usuario.nome }} ({{ avaliacao.usuario.email }}) em {{ avaliacao.criada_em.strftime('%d/%m/%Y %H:%M') }}</small></article>{% else %}<p>Ainda não há avaliações.</p>{% endfor %}
+</body></html>

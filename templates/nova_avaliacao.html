@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Nova avaliação</title>
+<style>body{font:16px Arial,sans-serif;max-width:600px;margin:40px auto;padding:0 18px;color:#172033}label{display:block;margin:18px 0 6px}textarea{width:100%;padding:10px;box-sizing:border-box}button{margin-top:16px;padding:10px 16px;background:#173b63;color:white;border:0}.flash{color:#a11}</style></head>
+<body><h1>Enviar avaliação</h1>{% for categoria, mensagem in get_flashed_messages(with_categories=true) %}<p class="flash">{{ mensagem }}</p>{% endfor %}
+<form method="post"><label for="texto">Escreva sobre sua disciplina</label><textarea name="texto" id="texto" rows="8" required maxlength="4000" placeholder="Conte sobre sua participação, compromisso e comportamento na disciplina."></textarea><button type="submit">Enviar avaliação</button></form><p><a href="{{ url_for('usuarios.pagina_inicial') }}">Voltar</a></p></body></html>

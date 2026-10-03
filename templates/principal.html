@@ -277,10 +277,31 @@
 
     {% endif %}
 
+    {% for categoria, aviso in get_flashed_messages(with_categories=true) %}
+    <div class="mensagem">{{ aviso }}</div>
+    {% endfor %}
+
 
     <!-- Opções -->
 
     <section class="cards">
+
+        {% if current_user.is_admin %}
+        <div class="card">
+            <div class="icone">⚙</div>
+            <h2>Administração</h2>
+            <p>Gerencie contas e consulte as avaliações sobre a disciplina dos alunos.</p>
+            <a href="{{ url_for('admin.listar_usuarios') }}" class="botao">Administrar usuários</a>
+            <a href="{{ url_for('admin.listar_avaliacoes') }}" class="botao botao-secundario">Ver avaliações</a>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="icone">✎</div>
+            <h2>Avaliar minha disciplina</h2>
+            <p>Registre um texto sobre sua disciplina nesta aplicação.</p>
+            <a href="{{ url_for('avaliacoes.nova_avaliacao') }}" class="botao">Enviar avaliação</a>
+        </div>
+        {% endif %}
 
         <!-- Cadastrar -->
 
