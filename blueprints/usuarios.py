@@ -1,6 +1,12 @@
 from flask import Blueprint, request, jsonify
-from flask_login import login_required
-from services.usuario_serv import listar_usuarios, buscar_usuario, cadastrar_usuario, remover_usuario
+from flask_login import login_required, current_user
+from services.usuario_serv import (
+    listar_usuarios,
+    buscar_usuario,
+    cadastrar_usuario,
+    remover_usuario,
+    atualizar_nome_usuario
+)
 
 #instanciando uma blueprint para que seja possível utilizar e vincular ao servidor flask
 usuarios_bp = Blueprint('usuarios', __name__, url_prefix='/api/usuarios')
@@ -42,6 +48,31 @@ def cadastrar():
         'mensagem': 'Usuário cadastrado com sucesso',
         'usuario': usuario.to_dict()
     }), 201
+
+
+@usuarios_bp.route('/<int:id_usuario>', methods=['PUT', 'PATCH'])
+@login_required
+def atualizar(id_usuario):
+    dados = request.get_json() or {}
+    novo_nome = dados.get('nome')
+
+    usuario, erro = atualizar_nome_usuario(
+        id_usuario=id_usuario,
+        novo_nome=novo_nome,
+        id_usuario_logado=current_user.id
+    )
+
+    if erro:
+        if 'Acesso não autorizado' in erro:
+            return jsonify({'erro': erro}), 403
+        if 'não encontrado' in erro:
+            return jsonify({'erro': erro}), 404
+        return jsonify({'erro': erro}), 400
+
+    return jsonify({
+        'mensagem': 'Nome atualizado com sucesso',
+        'usuario': usuario.to_dict()
+    }), 200
 
 
 @usuarios_bp.route('/<int:id_usuario>', methods=['DELETE'])

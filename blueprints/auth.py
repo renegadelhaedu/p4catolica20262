@@ -16,7 +16,7 @@ def login():
     usuario = checar_login(email, senha)
 
     if usuario:
-        #cria a sessao do usuario no flask-login
+        #aqui vc cria a sessao do usuario no flask-login
         login_user(usuario)
         return jsonify({
             'mensagem': 'Login realizado com sucesso',

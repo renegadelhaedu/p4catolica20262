@@ -34,6 +34,24 @@ def cadastrar_usuario(nome, email, data_nascimento, senha):
     return usuario, None
 
 
+def atualizar_nome_usuario(id_usuario, novo_nome, id_usuario_logado):
+    """Atualiza o nome de um usuario.
+    Verifica se o usuario logado tem permissao (apenas o proprio usuario).
+    Retorna uma tupla (usuario, mensagem_erro)."""
+    if id_usuario != id_usuario_logado:
+        return None, 'Acesso não autorizado: você só pode alterar seu próprio nome'
+
+    if not novo_nome or not novo_nome.strip():
+        return None, 'O novo nome não pode ser vazio'
+
+    usuario = UsuarioDAO.buscar_por_id(id_usuario)
+    if not usuario:
+        return None, 'Usuário não encontrado'
+
+    usuario_atualizado = UsuarioDAO.atualizar_nome(id_usuario, novo_nome.strip())
+    return usuario_atualizado, None
+
+
 def remover_usuario(id_usuario):
     """Remove um usuario pelo id.
     Retorna uma tupla (sucesso, mensagem_erro)."""

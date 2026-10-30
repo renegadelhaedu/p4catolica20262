@@ -35,6 +35,7 @@ def acesso_nao_autorizado():
 @login_manager.user_loader
 def carregar_usuario(id_usuario):
     try:
+        #puxei o model objeto de usuário
         return db.session.get(Usuario, int(id_usuario))
     except (TypeError, ValueError):
         return None

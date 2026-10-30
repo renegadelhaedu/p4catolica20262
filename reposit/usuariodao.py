@@ -23,6 +23,14 @@ class UsuarioDAO:
         return Usuario.query.filter_by(email=email).first()
 
     @staticmethod
+    def atualizar_nome(id_usuario, novo_nome):
+        usuario = db.session.get(Usuario, id_usuario)
+        if usuario:
+            usuario.nome = novo_nome
+            db.session.commit()
+        return usuario
+
+    @staticmethod
     def remover(usuario):
         db.session.delete(usuario)
         db.session.commit()

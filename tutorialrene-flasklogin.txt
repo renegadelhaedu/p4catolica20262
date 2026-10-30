@@ -11,11 +11,12 @@ app.config['SECRET_KEY'] = 'KJHJH3w42#n!'
 from flask_login import LoginManager
 login_manager = LoginManager()
 
-4- no seu servidor, importe a instância do do login manager
+4- no seu servidor, importe a instância do do login manager (opcional)
 from extensao import login_manager
 
 5- no servidor ou na extensao vincule o login manager a instancia do servidor flask e configure
 login_manager.init_app(app)
+<opcional abaixo>
 login_manager.login_view = 'auth.login'
 login_manager.login_message = "Por favor, faça login para acessar a página"
 login_manager.login_message_category = 'info'
@@ -26,7 +27,7 @@ from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
 
-7- neste mesmo model você precisa dizer ao flask login como carregar o usuario pelo id usando o user_loader
+7- pode ser no model ou no main tu precisa dizer ao flask login como carregar o usuario pelo id usando o user_loader
 @login_manager.user_loader
 def load_user(user_id):
     #aqui eu carrego o usuario pelo id por meio do flask login puxando lá do banco
