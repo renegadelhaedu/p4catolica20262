@@ -13,8 +13,10 @@ def listar():
 
 @usuarios_bp.route('/<int:id_usuario>', methods=['GET'])
 def detalhar(id_usuario):
+    #chamada ao service
     usuario = buscar_usuario(id_usuario)
     if not usuario:
+        #retorna erro status code http (pode retornar o erro específico)
         return jsonify({'erro': 'Usuário não encontrado'}), 404
 
     return jsonify(usuario.to_dict()), 200
@@ -22,6 +24,7 @@ def detalhar(id_usuario):
 
 @usuarios_bp.route('', methods=['POST'])
 def cadastrar():
+    #recebendo informações via json
     dados = request.get_json()
 
     nome = dados.get('nome')

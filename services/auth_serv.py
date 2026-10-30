@@ -7,6 +7,7 @@ def checar_login(email, senha):
     if not email or '@' not in email:
         return None
 
+    #chamar o repository
     usuario = UsuarioDAO.buscar_por_email(email)
 
     if usuario and usuario.senha == senha:
