@@ -8,7 +8,7 @@ from configdb import db
 from extensoes import login_manager
 from modelos.usuario import Usuario
 
-
+#instanciando o servidor flask
 app = Flask(__name__)
 app.secret_key = 'EGUyfgA786#'  # Coloque este valor em uma variável de ambiente.
 app.config['SQLALCHEMY_DATABASE_URI'] = (
@@ -35,7 +35,7 @@ def carregar_usuario(id_usuario):
     except (TypeError, ValueError):
         return None
 
-
+#registrar as blueprints
 app.register_blueprint(auth_bp)
 app.register_blueprint(usuarios_bp)
 app.register_blueprint(admin_bp)

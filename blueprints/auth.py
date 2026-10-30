@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_user, logout_user
-
+from services.auth_serv import checar_login
 from reposit.usuariodao import UsuarioDAO
 
 auth_bp = Blueprint('auth', __name__)
@@ -27,7 +27,9 @@ def login():
 
     email = request.form.get('email', '').strip()
     senha = request.form.get('senha', '')
-    usuario = UsuarioDAO.buscar_por_email(email)
+
+    #chamada ao service
+    usuario = checar_login(email)
 
     if usuario and usuario.senha == senha:
         login_user(usuario)

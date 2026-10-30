@@ -4,6 +4,7 @@ from flask_login import login_required
 from modelos.usuario import Usuario
 from reposit.usuariodao import UsuarioDAO
 
+#instanciando uma blueprint para que seja possível utilizar e vincular ao servidor flask
 usuarios_bp = Blueprint('usuarios', __name__)
 
 

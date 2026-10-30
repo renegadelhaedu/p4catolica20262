@@ -22,6 +22,8 @@ def admin_required(view):
     return wrapped
 
 
+
+
 @admin_bp.route('/login', methods=['GET', 'POST'])
 def login_admin():
     if current_user.is_authenticated:
