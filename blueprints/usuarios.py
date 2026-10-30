@@ -50,12 +50,15 @@ def cadastrar():
     }), 201
 
 
+#PUT: substitui o recurso inteiro
+#PATCH: atualiza parcialmente o recurso, modificando apenas os campos especificados
 @usuarios_bp.route('/<int:id_usuario>', methods=['PUT', 'PATCH'])
 @login_required
 def atualizar(id_usuario):
     dados = request.get_json() or {}
     novo_nome = dados.get('nome')
 
+    #chamo o service para ver se pode atualizar
     usuario, erro = atualizar_nome_usuario(
         id_usuario=id_usuario,
         novo_nome=novo_nome,

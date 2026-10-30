@@ -8,7 +8,7 @@ from services.avaliacao_serv import listar_avaliacoes, remover_avaliacao
 admin_bp = Blueprint('admin', __name__, url_prefix='/api/admin')
 
 
-#decorator que exige que o usuario logado seja admin
+#criar um decorator que exige que o usuario logado seja admin
 def admin_required(view):
     @wraps(view)
     @login_required
