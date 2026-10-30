@@ -7,7 +7,7 @@ galera, o flask-login precisa destas coisas:
 2- configure uma secret key
 app.config['SECRET_KEY'] = 'KJHJH3w42#n!'
 
-3- no seu arquivo de extensão, importe e instancie o loginmanager
+3- no seu arquivo de extensão, importe e instancie o loginmanager (pode ser no main do servidor)
 from flask_login import LoginManager
 login_manager = LoginManager()
 
