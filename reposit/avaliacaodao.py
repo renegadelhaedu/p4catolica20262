@@ -6,20 +6,20 @@ class AvaliacaoDAO:
     #definir métodos estáticos para serem acessados
     #nas rotas do servidor
     @staticmethod
-    def salvar(id,texto):
-        #falta fazer o tratamento de erro
+    def salvar(usuario_id, texto):
         db.session.add(Avaliacao(
-            usuario_id=id,
+            usuario_id=usuario_id,
             texto=texto,
         ))
-
-        db.session.commit()#salvando e gravando ele no BD
-        #este método precisa restornar true ou false
+        db.session.commit()
 
     @staticmethod
     def listar_todos():
         return Avaliacao.query.order_by(Avaliacao.criada_em.desc()).all()
 
+    @staticmethod
+    def buscar_por_id(id_avaliacao):
+        return db.session.get(Avaliacao, id_avaliacao)
 
     @staticmethod
     def remover(avaliacao):

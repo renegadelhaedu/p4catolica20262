@@ -7,14 +7,16 @@ class UsuarioDAO:
     #nas rotas do servidor
     @staticmethod
     def salvar(usuario):
-        #falta fazer o tratamento de erro
         db.session.add(usuario)
-        db.session.commit()#salvando e gravando ele no BD
-        #este método precisa restornar true ou false
+        db.session.commit()
 
     @staticmethod
     def listar_todos():
         return Usuario.query.all()
+
+    @staticmethod
+    def buscar_por_id(id_usuario):
+        return db.session.get(Usuario, id_usuario)
 
     @staticmethod
     def buscar_por_email(email):

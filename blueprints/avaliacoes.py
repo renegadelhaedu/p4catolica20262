@@ -1,27 +1,37 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for, abort
-from flask_login import current_user, login_required
-from reposit.avaliacaodao import AvaliacaoDAO
-from configdb import db
-from modelos.avaliacao import Avaliacao
+from flask import Blueprint, request, jsonify
+from services.avaliacao_serv import listar_avaliacoes, criar_avaliacao, remover_avaliacao
 
-avaliacoes_bp = Blueprint('avaliacoes', __name__)
+avaliacoes_bp = Blueprint('avaliacoes', __name__, url_prefix='/api/avaliacoes')
 
 
-@avaliacoes_bp.route('/avaliacoes/nova', methods=['GET', 'POST'])
-@login_required
-def nova_avaliacao():
-    if current_user.is_admin:
-        abort(403)
+@avaliacoes_bp.route('', methods=['GET'])
+def listar():
+    avaliacoes = listar_avaliacoes()
+    return jsonify([a.to_dict() for a in avaliacoes]), 200
 
-    if request.method == 'POST':
-        texto = request.form.get('texto', '').strip()
-        if not texto:
-            flash('Escreva sua avaliação sobre sua disciplina.', 'erro')
-            return render_template('nova_avaliacao.html')
 
-        AvaliacaoDAO.salvar(current_user.id, texto)
+@avaliacoes_bp.route('', methods=['POST'])
+def criar():
+    dados = request.get_json()
 
-        flash('Avaliação enviada.', 'sucesso')
-        return redirect(url_for('usuarios.pagina_inicial'))
+    usuario_id = dados.get('usuario_id')
+    texto = dados.get('texto')
 
-    return render_template('nova_avaliacao.html')
+    #chamada ao service
+    sucesso, erro = criar_avaliacao(usuario_id, texto)
+
+    if not sucesso:
+        return jsonify({'erro': erro}), 400
+
+    return jsonify({'mensagem': 'Avaliação criada com sucesso'}), 201
+
+
+@avaliacoes_bp.route('/<int:id_avaliacao>', methods=['DELETE'])
+def remover(id_avaliacao):
+    #chamada ao service
+    sucesso, erro = remover_avaliacao(id_avaliacao)
+
+    if not sucesso:
+        return jsonify({'erro': erro}), 404
+
+    return jsonify({'mensagem': 'Avaliação removida com sucesso'}), 200

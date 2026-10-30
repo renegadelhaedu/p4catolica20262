@@ -1,46 +1,23 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import current_user, login_user, logout_user
+from flask import Blueprint, request, jsonify
 from services.auth_serv import checar_login
-from reposit.usuariodao import UsuarioDAO
 
-auth_bp = Blueprint('auth', __name__)
-
-
-@auth_bp.route('/')
-def pagina_principal():
-    if current_user.is_authenticated:
-        if current_user.is_admin:
-            return redirect(url_for('admin.painel'))
-        return render_template('principal.html')
-    return render_template('index.html')
+auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 
-@auth_bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
-    if current_user.is_authenticated:
-        if current_user.is_admin:
-            return redirect(url_for('admin.painel'))
-        return redirect(url_for('usuarios.pagina_inicial'))
+    dados = request.get_json()
 
-    if request.method == 'GET':
-        return render_template('index.html')
-
-    email = request.form.get('email', '').strip()
-    senha = request.form.get('senha', '')
+    email = dados.get('email', '').strip()
+    senha = dados.get('senha', '')
 
     #chamada ao service
-    usuario = checar_login(email)
+    usuario = checar_login(email, senha)
 
-    if usuario and usuario.senha == senha:
-        login_user(usuario)
-        if usuario.is_admin:
-            return redirect(url_for('admin.painel'))
-        return redirect(url_for('usuarios.pagina_inicial'))
+    if usuario:
+        return jsonify({
+            'mensagem': 'Login realizado com sucesso',
+            'usuario': usuario.to_dict()
+        }), 200
 
-    return render_template('index.html', mensagem='Erro ao fazer login'), 401
-
-
-@auth_bp.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('auth.pagina_principal'))
+    return jsonify({'erro': 'Credenciais inválidas'}), 401

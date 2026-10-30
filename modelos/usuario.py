@@ -1,9 +1,8 @@
 #importar o teu objeto de conexao com o BD
 from configdb import db
-from flask_login import UserMixin
 
 #(BD-4)galera, voces precisam herdar a classe model para que ele consiga mapear os objetos
-class Usuario(UserMixin, db.Model):
+class Usuario(db.Model):
     #coloque o nome sempre sem espaço e com letras minusc
     __tablename__ = 'usuarios'
 
@@ -19,3 +18,13 @@ class Usuario(UserMixin, db.Model):
     @property
     def is_admin(self):
         return self.tipo == 'admin'
+
+    #converte o objeto para dicionario (JSON-friendly)
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nome': self.nome,
+            'email': self.email,
+            'data_nascimento': self.data_nascimento,
+            'tipo': self.tipo
+        }
