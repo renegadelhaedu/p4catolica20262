@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_login import login_required
 from services.usuario_serv import listar_usuarios, buscar_usuario, cadastrar_usuario, remover_usuario
 
 #instanciando uma blueprint para que seja possível utilizar e vincular ao servidor flask
@@ -6,12 +7,14 @@ usuarios_bp = Blueprint('usuarios', __name__, url_prefix='/api/usuarios')
 
 
 @usuarios_bp.route('', methods=['GET'])
+@login_required
 def listar():
     usuarios = listar_usuarios()
     return jsonify([u.to_dict() for u in usuarios]), 200
 
 
 @usuarios_bp.route('/<int:id_usuario>', methods=['GET'])
+@login_required
 def detalhar(id_usuario):
     usuario = buscar_usuario(id_usuario)
     if not usuario:
@@ -42,6 +45,7 @@ def cadastrar():
 
 
 @usuarios_bp.route('/<int:id_usuario>', methods=['DELETE'])
+@login_required
 def remover(id_usuario):
     #chamada ao service
     sucesso, erro = remover_usuario(id_usuario)
