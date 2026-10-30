@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>Simulador de Frontend</h1>
+
+    <div class="instrucao">
+        <strong>Bora testar:</strong><br>
+        Pressione <b>F12</b> no seu teclado e abra a aba <b>Console</b> antes de clicar no botão abaixo. É lá que o erro real de CORS será exibido em vermelho.
+    </div>
+
+    <p>Este script tentará buscar dados da sua API Flask em <code>http://localhost:5000/api/dados</code>.</p>
+
+    <button onclick="fazerRequisicao()">Fazer Requisição (Fetch)</button>
+
+    <div id="resultado">Aguardando ação...</div>
+</div>
+
+<script>
+    function fazerRequisicao() {
+        const divResultado = document.getElementById('resultado');
+        divResultado.innerHTML = "⏳ Tentando conectar com o backend Flask...";
+        divResultado.className = "";
+
+        // Substitua esta URL caso sua rota Flask seja diferente
+        const apiUrl = 'http://localhost:5000/api/auth/teste';
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro HTTP: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Se o Flask estiver com Flask-CORS ativo, o código chega aqui
+                divResultado.innerHTML = "✅ <b>Sucesso! O CORS permitiu.</b><br><br>Dados recebidos:<br>" + JSON.stringify(data);
+                divResultado.className = "sucesso";
+            })
+            .catch(error => {
+                // Se o Flask estiver sem CORS, o navegador bloqueia e cai aqui
+                divResultado.innerHTML = "❌ <b>Falha na requisição! O navegador bloqueou.</b><br><br>Olhe o Console (F12) para ler a mensagem exata do erro de CORS.<br><br><small>Erro genérico retornado ao JS: " + error.message + "</small>";
+                divResultado.className = "erro";
+                console.error("ERRO DE CORS: A requisição foi bloqueada pelo navegador porque a API Flask não devolveu os cabeçalhos 'Access-Control-Allow-Origin'.");
+            });
+    }
+</script>
+
+
+</body>
+</html>

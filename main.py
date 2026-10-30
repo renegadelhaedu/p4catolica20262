@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-
+from flask_cors import CORS
 from blueprints.auth import auth_bp
 from blueprints.admin import admin_bp
 from blueprints.avaliacoes import avaliacoes_bp
@@ -16,6 +16,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 )
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+CORS(app)
+#CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 db.init_app(app)
 

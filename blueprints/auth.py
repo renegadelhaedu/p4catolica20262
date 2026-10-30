@@ -31,3 +31,9 @@ def login():
 def logout():
     logout_user()
     return jsonify({'mensagem': 'Logout realizado com sucesso'}), 200
+
+
+@auth_bp.route('/teste', methods=['GET'])
+def testar():
+
+    return jsonify({'ok': 'Credenciais válidas'}), 200

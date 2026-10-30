@@ -1,0 +1,31 @@
+O Problema: O Paradigma "Same-Origin Policy" (SOP)
+
+Galera, por padrão, os navegadores implementam uma política de segurança chamada Same-Origin Policy (Política de Mesma Origem). Ela impede que um site carregado em uma URL maliciosa roube dados de outra URL (como a API do seu banco).
+O que define uma "Origem"? Uma origem é a combinação de três coisas: Protocolo + Domínio + Porta.
+Cenário:
+  - Frontend React: http://localhost:3000 (ou 5173 no Vite)
+  - Backend Flask: http://localhost:5000
+  - Conflito: As portas são diferentes. Logo, são origens diferentes. O navegador bloqueia a leitura da resposta.
+
+O Flask não lida com CORS nativamente. É preciso usar a extensão oficial que intercepta as requisições OPTIONS e insere os cabeçalhos corretos.
+
+Passo 1: Instalação
+pip install Flask-Cors
+
+------ na prática
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+
+# O CORS(app) sem parâmetros libera o acesso de qualquer origem (*)
+CORS(app) 
+
+---------------- OU
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+
+# Permite apenas que a porta 3000 (React local) acesse a API.
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
